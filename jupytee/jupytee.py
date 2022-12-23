@@ -62,7 +62,7 @@ def get_image(prompt, n=1, size="256x256"):
 class GPTMagics(Magics):
     def __init__(self, shell):
         # You must call the parent constructor
-        super(GPTChat, self).__init__(shell)
+        super(GPTMagics, self).__init__(shell)
         self.api_key = openai.api_key = os.getenv("OPENAI_API_KEY")
         self.last_code = ""
 
