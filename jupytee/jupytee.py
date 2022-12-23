@@ -137,32 +137,6 @@ class GPTMagics(Magics):
         self.last_code = response.choices[0].text.strip()
         return Markdown(f"```{args.lang}\n{self.last_code}\n```")
 
-    @line_cell_magic
-    def code0(self, line, cell=None):
-        """Prompt for code generation.
-        """
-        opts, args = self.parse_options(line, 'l:T:')
-        lang = opts.get('l', 'python')
-        temp = float(opts.get('T', 0.1))
-        input = ""
-        if cell is None:
-            instruction = args
-        else:
-            parts =  cell.split("##")
-            if len(parts) == 1:
-                instruction = cell
-            elif len(parts) == 2:
-                instruction, input = parts
-            else:
-                print("Only one ## marker is supported", file=sys.stderr)
-                return
-        if not(input) and "CODE" in instruction:
-            input = self.last_code
-
-        response = get_code_completion(instruction, input, temperature=temp)
-        self.last_code = result = response.choices[0].text.strip()
-        return Markdown(f"```{lang}\n{result}\n```")
-
     @line_magic
     def get_code(self, line):
         "Return the last computed code in a new cell."
