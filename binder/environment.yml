@@ -1,0 +1,8 @@
+name: jupytee
+
+dependencies:
+  - openai
+  - python-dotenv
+  - ipython
+  - jupyterlab
+  

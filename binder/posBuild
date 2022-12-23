@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Script run by binder after building the base environment.
+# https://mybinder.readthedocs.io/en/latest/using/config_files.html#postbuild-run-code-after-installing-the-environment
+
+# In this example, we install our own package in development mode after its dependencies
+# have been loaded (via the environment.yml file), so that when experimenting
+# in the Binder, users can not only see the package, but potentially modify it
+
+pip install -e .
