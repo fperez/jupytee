@@ -95,8 +95,8 @@ class GPTMagics(Magics):
     @argument('-t', '--temp', type=float, default=0.1,
         help="""Temperature, float in [0,1]. Higher values push the algorithm
         to generate more aggressive/"creative" output. [default=0.1].""")
-    @argument('prompt', nargs='+',
-        help="""Prompt for image generation. When used as a line magic,
+    @argument('prompt', nargs='*',
+        help="""Prompt for code generation. When used as a line magic,
         it runs to the end of the line. In cell mode, the entire cell
         is considered the code generation prompt.
         """)
@@ -116,7 +116,7 @@ class GPTMagics(Magics):
         def add(a, b): return a+b
         ```
         """
-        args = parse_argstring(self.pic, line)
+        args = parse_argstring(self.code, line)
         input = ""
         if cell is None:
             instruction = args.prompt
@@ -150,7 +150,7 @@ class GPTMagics(Magics):
     )
     @argument('-n', type=int, default=1,
         help="Number of images to generate [default=1].")
-    @argument('prompt', nargs='+',
+    @argument('prompt', nargs='*',
         help="""Prompt for image generation. When used as a line magic,
         it runs to the end of the line. In cell mode, the entire cell
         is considered the image generation prompt.
