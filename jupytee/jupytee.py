@@ -8,6 +8,8 @@ Implementation module.
 import os
 import sys
 
+from base64 import b64decode
+
 # from IPython/Jupyter APIs
 from IPython.core.magic import (Magics, magics_class, line_magic,
                                 cell_magic, line_cell_magic)
@@ -48,7 +50,8 @@ def get_code_completion(instruction, input="", temperature=0.1):
 
 def get_image(prompt, n=1, size="256x256"):
     response = openai.Image.create(prompt=prompt,
-                                   n=n, size=size)
+                                   n=n, size=size,
+                                   response_format="b64_json")
     return response
 
 
@@ -179,7 +182,7 @@ class GPTMagics(Magics):
 
         response = get_image(prompt, args.n, sizes[args.size])
         for img in response.data:
-            display(Image(url=img.url, embed=True))
+            display(Image(data=b64decode(img.b64_json)))
 
 
 # If testing interactively, it's convenient to %run as a script in Jupyter
