@@ -66,22 +66,35 @@ class GPTMagics(Magics):
         self.api_key = openai.api_key = os.getenv("OPENAI_API_KEY")
         self.last_code = ""
 
+    @magic_arguments()
+    @argument(
+        '-r', '--raw', action="store_true",
+        help="""Return output as raw text instead of rendering it as Markdown[Default: False].
+        """
+    )
+    @argument('-T', '--temp', type=float, default=0.6,
+        help="""Temperature, float in [0,1]. Higher values push the algorithm
+        to generate more aggressive/"creative" output. [default=0.1].""")
+    @argument('prompt', nargs='*',
+        help="""Prompt for code generation. When used as a line magic,
+        it runs to the end of the line. In cell mode, the entire cell
+        is considered the code generation prompt.
+        """)
     @line_cell_magic
     def chat(self, line, cell=None):
         "Chat with GPTChat."
-        opts, args = self.parse_options(line, 'rl:T:')
-        raw = 'r' in opts
-        temp = float(opts.get('T', 0.6))
+        args = parse_argstring(self.chat, line)
 
         if cell is None:
-            prompt = args
+            prompt = ' '.join(args.prompt)
         else:
             prompt = cell
-        response = get_chat_completion(prompt, temperature=temp)
+        response = get_chat_completion(prompt, temperature=args.temp)
         output = response.choices[0].text.strip()
-        if raw:
-            display(Markdown(f"*Raw output*\n---\n```\n{output}\n```\n---"))
-        return Markdown(output)
+        if args.raw:
+            return Markdown(f"```\n{output}\n```\n")
+        else:
+            return Markdown(output)
 
     @magic_arguments()
     @argument(
@@ -92,7 +105,7 @@ class GPTMagics(Magics):
     @argument('-s', '--sep', type=str, default="##",
         help="""Separator between instruction prompt and code input 
         [default: ##].""")
-    @argument('-t', '--temp', type=float, default=0.1,
+    @argument('-T', '--temp', type=float, default=0.1,
         help="""Temperature, float in [0,1]. Higher values push the algorithm
         to generate more aggressive/"creative" output. [default=0.1].""")
     @argument('prompt', nargs='*',
