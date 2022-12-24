@@ -119,7 +119,7 @@ class GPTMagics(Magics):
         args = parse_argstring(self.code, line)
         input = ""
         if cell is None:
-            instruction = args.prompt
+            instruction = ' '.join(args.prompt)
         else:
             parts =  cell.split(args.sep)
             if len(parts) == 1:
@@ -134,8 +134,12 @@ class GPTMagics(Magics):
         
         response = get_code_completion(instruction, input, 
                                        temperature=args.temp)
-        self.last_code = response.choices[0].text.strip()
-        return Markdown(f"```{args.lang}\n{self.last_code}\n```")
+        if response:
+            self.last_code = response.choices[0].text.strip()
+            return Markdown(f"```{args.lang}\n{self.last_code}\n```")
+        else:
+            print("ERROR: No response returned by GPT. Please try again.",
+                  file=sys.stderr)
 
     @line_magic
     def get_code(self, line):
