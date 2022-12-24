@@ -18,10 +18,7 @@ parse_argstring)
 from IPython.display import display, Image, JSON, Markdown
 
 # Third-party dependencies
-import dotenv
 import openai
-
-dotenv.load_dotenv()  # take environment variables from .env.
 
 # Utility functions
 
