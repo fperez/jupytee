@@ -21,7 +21,7 @@ To load the extension, use
 
 The package provides a few core magics, `%chat`, `%pic` and `%code` (along with some extra helpers), that wrap your interactions around the [OpenAI Python API](https://beta.openai.com/docs/api-reference/introduction). They target the main entry points of the API: text completion, image generation and code completion, respectively. 
 
-You can see them in action in [this notebook](https://nbviewer.org/github/fperez/jupytee/blob/main/examples/jupytee-demo.ipynb) contained in the `examples` directory (which you can run immediately by clicking on the Binder button above).
+You can see them in action in [this notebook](https://github.com/fperez/jupytee/blob/main/examples/jupytee-demo.ipynb) contained in the `examples` directory (which you can run immediately by clicking on the Binder button above).
 
 Briefly, these are some examples of how you can use them. A simple question (note the extra space before `?`, needed b/c IPython's help will otherwise trigger by accident):
 
