@@ -179,7 +179,7 @@ class GPTMagics(Magics):
 
         response = get_image(prompt, args.n, sizes[args.size])
         for img in response.data:
-            display(Image(url=img.url))
+            display(Image(url=img.url, embed=True))
 
 
 # If testing interactively, it's convenient to %run as a script in Jupyter
