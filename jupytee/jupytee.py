@@ -119,9 +119,13 @@ class GPTMagics(Magics):
 
         The prompt can be purely an instruction (in natural language), or it can consist of both an instruction and a block of code. If you want to provide code, it should come below the instruction, after a separator (which defaults to `##` but can be set with the `--sep` argumet).
 
+        The code is displayed as syntax-highlighted Markdown. If you want to get the code directly inserted into a cell for later execution, call the `%get_code` magic.
+
         Example:
 
         ```
+        %%code
+
         Please add a docstring to this function.
 
         ##
@@ -156,9 +160,10 @@ class GPTMagics(Magics):
 
     @line_magic
     def get_code(self, line):
-        "Return the last computed code in a new cell."
+        """
+        Insert the last code block created with `%code` into a new code cell.
+        """
         self.shell.set_next_input(self.last_code)
-
 
     @magic_arguments()
     @argument(
